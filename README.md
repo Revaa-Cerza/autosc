@@ -33,6 +33,26 @@ If you encounter when installing the script is taking time so long, change the r
 wget https://raw.githubusercontent.com/Revaa-Cerza/autosc/main/data/RepoLocal.sh && bash RepoLocal.sh && rm RepoLocal.sh && apt update
 ```
 
+## Update
+
+Perbarui script dengan perintah `update`, atau lewat menu utama opsi `100`.
+
+| Perintah | Fungsi |
+|---|---|
+| `update` | Update ke versi terbaru (dilewati bila sudah terbaru) |
+| `update --check` | Cek versi saja, tidak mengubah apa pun |
+| `update --force` | Pasang ulang walau versi sudah sama |
+| `update --rollback` | Kembalikan ke kondisi sebelum update terakhir |
+
+Updater bekerja secara **atomik**: semua file diunduh ke folder sementara dan
+divalidasi dulu (ukuran tidak nol, bukan halaman HTML, dan script harus lolos
+`bash -n`). File baru hanya dipasang bila **seluruh** unduhan berhasil. Jadi
+kalau koneksi putus di tengah update, tidak ada satu pun file di VPS yang
+berubah — panel Anda tetap bisa dipakai.
+
+Sebelum memasang, file lama dicadangkan ke `/var/backups/autosc/<tanggal>/`
+(5 backup terakhir disimpan). Bila ada yang salah, jalankan `update --rollback`.
+
 ## REST API & Dokumentasi
 
 Sejak v1.2.0 seluruh fitur panel juga tersedia lewat REST API. API dan situs

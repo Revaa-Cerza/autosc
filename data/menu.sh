@@ -145,7 +145,8 @@ echo -e "  ${WH}[${COLOR1}00${WH}]${NC} ${COLOR1}• ${WH}EXIT  $COLOR1 $NC"
 echo -e "$COLOR1└─────────────────────────────────────────────────┘${NC}"
 myver="$(cat /opt/.ver)"
 
-if [[ $serverV > $myver ]]; then
+# Numeric compare via sort -V: a plain string compare ranks 1.10.0 below 1.9.0.
+if [[ -n "$serverV" && "$serverV" != "$myver" && "$(printf '%s\n%s\n' "$myver" "$serverV" | sort -V | head -n1)" == "$myver" ]]; then
 echo -e "$COLOR1┌─────────────────────────────────────────────────┐${NC}"
 echo -e "$COLOR1 $NC ${WH}[${COLOR1}100${WH}]${NC} ${COLOR1}• ${RED}UPDATE AUTOSCRIPT TO THE NEWEST ${WH}v$serverV${NC} " 
 echo -e "$COLOR1└─────────────────────────────────────────────────┘${NC}"

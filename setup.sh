@@ -332,9 +332,13 @@ echo "#!/bin/bash
 bash <(curl -L -s https://s.id/netflixchecker) -E -M 4" > /usr/bin/regionchecker
 chmod +x /usr/bin/regionchecker
 
-echo "Changing the version to the oldest so you can update manually.."
-echo "0.0.1" > /opt/.ver; sleep 2
-echo "Changing the version to the oldest so you can update manually.. done"
+# A fresh install already ships every file the updater would fetch, so record
+# the real version instead of forcing 0.0.1 and replaying every migration.
+echo "Recording the installed version.."
+serverV=$( curl -sS https://raw.githubusercontent.com/Revaa-Cerza/autosc/main/data/version | tr -d ' \t\r\n' )
+[ -z "$serverV" ] && serverV="0.0.1"
+echo "$serverV" > /opt/.ver; sleep 2
+echo "Installed version: $serverV"
 
 if [ -s /etc/autosc-api/first-key.txt ]; then
 echo ""
